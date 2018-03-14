@@ -1,0 +1,50 @@
+<div style="text-align:center">
+  <h1>
+    Welcome to <a href="https://github.com/brandart">brandart's</a> todo list!
+  </h1>
+</div>
+
+
+<div ng-controller="ExampleController">
+
+
+  <h4>1. Filter:</h4>
+  <select class="form-control" (change)="onChangeStatus($event.target.value)" id="status">
+    <option value="1">Select your option</option>
+    <option value="open">Open</option>
+    <option value="done">Done</option>
+  </select>
+  <div class="spacer"></div>
+  <h4>2. Filter:</h4>
+  <select class="form-control" (change)="onChangePerson($event.target.value)">
+    <option value="1" >Select your option</option>
+    <option  *ngFor="let person of people | async" value="{{person.name}}">{{person.name}}</option>
+  </select>
+  <div class="spacer"></div>
+  <h2>To Do</h2>
+  <table class="table">
+    <th>description</th>
+    <th>assigned to</th>
+    <th>done</th>
+    <tr class="class" *ngFor="let item of items | async" [ngClass]="{ 'success': item.done, 'active': !item.done}">
+      <td>{{ item.description }}</td>
+      <td>{{ item.assignedTo }}</td>
+      <td><input type="checkbox" ng-model="item.done" (change)='onCompleteTodo(item.done, item.id)'/></td>
+    </tr>
+  </table>
+</div>
+<button (click)="showAddItem()">Add a item</button>
+<div id="addItem" style="visibility: hidden">
+
+
+<h4>Add a toDoItem:</h4>
+<p>Description: <input id="input" [(ngModel)]="newDescription"/></p>
+<p>Assigned to: 
+  <select class="form-control" [(ngModel)]="newPerson">
+    <option  *ngFor="let person of people | async" value="{{person.name}}">{{person.name}}</option>
+  </select>
+</p>
+
+<button (click)="onSave()">Add to ToDo list</button>
+<button (click)="hideAddItem()">Close</button>
+</div>
